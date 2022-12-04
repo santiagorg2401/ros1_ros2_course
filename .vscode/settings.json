@@ -1,0 +1,21 @@
+{
+    "editor.tabSize": 8,
+    "editor.rulers": [
+        100
+    ],
+    "files.associations": {
+        "*.repos": "yaml",
+        "*.world": "xml",
+        "*.xacro": "xml"
+    },
+    "python.analysis.extraPaths": [
+        "/opt/ros/humble/lib/python3.10/site-packages"
+    ],
+    // Autocomplete from ros python packages
+    "python.autoComplete.extraPaths": [
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "~/ros1_ros2_course/ros2_ws/install/my_robot_interfaces/lib"
+    ],
+    "cmake.configureOnOpen": false,
+    "cmake.sourceDirectory": "${workspaceFolder}/ros2_ws/build/my_robot_interfaces/my_robot_interfaces__py"
+}
