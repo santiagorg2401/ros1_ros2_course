@@ -7,15 +7,25 @@ from std_msgs.msg import Int8
 class NumberPublisherNode(Node):
     def __init__(self):
         super().__init__("number_publisher")
-        self.get_logger().info("number_publisher Python node initialized.")
 
-        self.number_ = 4
-        self.number_timer_ = self.create_timer(0.5, self.publish_number)
+        # Declare parameters.
+        self.declare_parameter("pub_freq", value=1.0)
+        self.declare_parameter("num2pub", value=0)
+
+        # Get value from parameters.
+        self.pub_freq_ = self.get_parameter("pub_freq").value
+        self.num2pub_ = self.get_parameter("num2pub").value
+
+        self.number_timer_ = self.create_timer(
+            1.0 / self.pub_freq_, self.publish_number)
         self.pub_ = self.create_publisher(Int8, 'number', 10)
+
+        # Confirm node initialization.
+        self.get_logger().info("number_publisher Python node initialized.")
 
     def publish_number(self):
         msg = Int8()
-        msg.data = self.number_
+        msg.data = self.num2pub_
         self.pub_.publish(msg)
 
 

@@ -4,10 +4,16 @@
 class NumberPublisherNode : public rclcpp::Node
 {
 public:
-    NumberPublisherNode() : Node("number_publisher"), number_(4)
+    NumberPublisherNode() : Node("number_publisher")
     {
         RCLCPP_INFO(this->get_logger(), "number_publisher C++ node initialized.");
-        number_timer_ = this->create_wall_timer(std::chrono::seconds(1),
+        this->declare_parameter("pub_freq", 1.0);
+        this->declare_parameter("num2pub", 0);
+
+        number_ = this->get_parameter("num2pub").as_int();
+        pub_freq_ = this->get_parameter("pub_freq").as_double();
+
+        number_timer_ = this->create_wall_timer(std::chrono::milliseconds(int(1000.0 / pub_freq_)),
                                                 std::bind(&NumberPublisherNode::publish_number, this));
 
         pub_ = this->create_publisher<std_msgs::msg::Int8>("number", 10);
@@ -22,6 +28,7 @@ private:
     }
 
     int number_;
+    double pub_freq_;
     rclcpp::Publisher<std_msgs::msg::Int8>::SharedPtr pub_;
     rclcpp::TimerBase::SharedPtr number_timer_;
 };
